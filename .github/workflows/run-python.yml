@@ -1,0 +1,29 @@
+name: Run Python and update Notion
+
+on:
+  push:
+    paths:
+      - 'code.py' # 이 파일이 변경될 때만 실행
+
+jobs:
+  run-python:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run Python Script
+        run: |
+          python code.py > result.txt
+          cat result.txt
+
+      - name: Save Result
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-result
+          path: result.txt
